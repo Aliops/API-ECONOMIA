@@ -1,143 +1,113 @@
 # API-ECONOMIA
 
+## Análise e Previsão de Taxas de Juros
 
-# Análise e Previsão de Taxas de Juros
+### Visão Geral
 
-## Visão Geral do Projeto
+Este projeto foi desenvolvido para analisar e prever as taxas de juros do Brasil (SELIC) e dos Estados Unidos (Taxa de Juros do FED). Utilizando modelos de séries temporais (ARIMA), as taxas são analisadas ao longo do tempo e previsões são feitas com base nos dados coletados. Além disso, o projeto inclui um dashboard interativo em Streamlit para visualização dos dados e previsões.
 
-Este projeto foca em analisar e prever taxas de juros do Brasil (SELIC) e dos Estados Unidos (Taxa de Juros do FED). O objetivo é fornecer uma análise interativa e visualização dessas taxas ao longo do tempo e criar previsões usando modelos ARIMA. O projeto também inclui um dashboard interativo com Streamlit para visualização de dados e previsões.
+### Estrutura do Projeto
 
-## Estrutura do Projeto
-
-```
+```bash
 .
 ├── country/
 │   ├── brazil/
+│   │   ├── __init__.py     
 │   │   ├── selic.py             # Funções para coletar e carregar dados da SELIC
-│   ├── eua.py                   # Funções para coletar e carregar dados do FED
+│   ├── eua/
+│   │   ├── __init__.py     
+│   │   ├── eua.py               # Funções para coletar e carregar dados do FED
 ├── data/
 │   ├── brazil/
-│   │   ├── selic_data.csv       # Dados da SELIC (amostra)
+│   │   ├── selic_data.csv       # Dados coletados da SELIC
 │   ├── eua/
-│   │   ├── fed_data.csv         # Dados do FED (amostra)
+│   │   ├── fed_data.csv         # Dados coletados do FED
 ├── source/
 │   ├── data_processing.py       # Funções para preparar e processar dados para modelagem
-│   ├── initialize_data.py       # Scripts para coletar e salvar dados
-│   ├── analysis.py              # Funções para visualizações e plotagens
-│   ├── modeling.py              # Funções para treinar modelos e fazer previsões
-│   ├── main.py                  # Script principal para executar todo o workflow de análise
-│   ├── app.py                   # Aplicativo Streamlit para visualização
+│   ├── initialize_data.py       # Scripts para coleta e salvamento de dados
+│   ├── analysis.py              # Funções para visualização e análise dos dados
+│   ├── modeling.py              # Funções para modelagem e previsão
+│   ├── main.py                  # Script principal para executar a análise completa
+├── dashboard/
+│   ├── app.py                   # Dashboard Streamlit para visualização interativa
+├── scripts/
+│   ├── initialize_data.py       # Script para coleta inicial dos dados
 ```
 
-## Configuração e Instalação
+## Instalação
 
 ### Pré-requisitos
 
-- Python 3.8 ou superior
-- Gerenciador de pacotes `pip`
+- **Python 3.8+**
+- **pip** (Gerenciador de pacotes do Python)
 
 ### Instalar Dependências
 
-Instale os pacotes necessários usando o arquivo `requirements.txt` (se não fornecido, inclua os pacotes essenciais aqui):
+Você pode instalar as dependências necessárias com o `requirements.txt`:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Caso o `requirements.txt` não esteja disponível, instale manualmente os pacotes necessários:
+Caso o `requirements.txt` não esteja disponível, instale os pacotes manualmente:
 
 ```bash
 pip install pandas streamlit matplotlib seaborn statsmodels pandas_datareader
 ```
 
-### Coleta de Dados
+## Coleta de Dados
 
-Para coletar e preparar os dados, execute o script que inicializa e coleta os dados das taxas de juros para o Brasil e os EUA:
+Para coletar e preparar os dados de taxas de juros do Brasil e dos EUA, execute o script:
 
 ```bash
-python source/initialize_data.py
+python scripts/initialize_data.py
 ```
 
-Este script salvará os dados como arquivos CSV nos diretórios `data/brazil` e `data/eua`.
+Isso irá salvar os dados como arquivos CSV em `data/brazil` e `data/eua`.
 
 ## Uso
 
-### Executando a Análise
+### Executando a Análise de Dados
 
-Para executar a análise principal, visualização e treinamento do modelo, utilize o seguinte comando:
+Para realizar a análise, visualização e treinamento do modelo de previsão, execute:
 
 ```bash
 python source/main.py
 ```
 
-Este script irá:
+Isso irá:
 
-1. Carregar e preparar dados do Brasil (SELIC) e dos EUA (FED).
-2. Realizar análise comparativa e visualizações das taxas de juros.
-3. Treinar modelos ARIMA para previsão das taxas de juros.
-4. Avaliar as previsões dos modelos.
-5. Exibir resultados e gráficos para as taxas reais e previstas.
+1. Carregar e preparar os dados do Brasil (SELIC) e dos EUA (FED).
+2. Realizar análise comparativa e visualização das taxas de juros.
+3. Treinar modelos ARIMA para previsões.
+4. Avaliar e exibir os resultados das previsões.
 
 ### Executando o Dashboard
 
-Para iniciar o dashboard interativo do Streamlit, use:
+O projeto possui um dashboard interativo desenvolvido com Streamlit. Para iniciar o dashboard e explorar os dados:
 
 ```bash
-streamlit run source/app.py
+streamlit run dashboard/app.py
 ```
 
-Este dashboard permite visualizar os dados históricos, realizar análises de correlação e ver as previsões para as taxas de juros SELIC e FED.
+Você poderá visualizar os dados históricos, correlações e previsões das taxas de juros SELIC e FED de forma interativa.
 
-## Descrição dos Arquivos
+## Detalhes dos Arquivos
 
-### `selic.py`
-Contém funções para:
-- Recuperar dados da SELIC de uma API ou de um arquivo local.
-- Salvar e carregar dados da SELIC para processamento posterior.
-
-### `eua.py`
-Inclui funções para:
-- Buscar dados da Taxa de Juros do FED da API FRED.
-- Salvar e carregar os dados para uso futuro.
-
-### `data_processing.py`
-Lida com a preparação dos dados para modelagem, incluindo:
-- Carregamento e limpeza de dados para o Brasil e os EUA.
-- Cálculo de variações percentuais nas taxas de juros.
-- Normalização dos dados para modelagem ARIMA.
-
-### `initialize_data.py`
-Um script que coleta e salva dados das taxas de juros para ambos os países, garantindo disponibilidade para análise.
-
-### `analysis.py`
-Funções para visualização de dados, incluindo:
-- Plotagem de tendências das taxas de juros ao longo do tempo.
-- Visualização de correlações entre as taxas SELIC e FED.
-- Exibição de distribuições dos valores das taxas de juros.
-
-### `modeling.py`
-Contém funções de modelagem para:
-- Treinar modelos ARIMA para previsão de séries temporais.
-- Realizar previsões e avaliar a precisão do modelo.
-
-### `main.py`
-Orquestra todo o fluxo de análise por:
-- Coletar, processar e visualizar dados.
-- Treinar e avaliar modelos de previsão.
-- Gerar e exibir visualizações para as taxas reais e previstas.
-
-### `app.py`
-Um aplicativo Streamlit que fornece:
-- Uma interface interativa para explorar dados da SELIC e do FED.
-- Visualizações de tendências de taxas de juros, correlações e previsões.
-- Opções para definir períodos de previsão personalizados.
+- **`country/brazil/selic.py`**: Funções para coletar, carregar e salvar dados da SELIC de uma API ou arquivo local.
+- **`country/eua/eua.py`**: Funções para coletar, carregar e salvar dados da Taxa de Juros do FED a partir da API FRED.
+- **`source/data_processing.py`**: Processamento de dados para modelagem (limpeza, cálculos de variações percentuais e normalização).
+- **`source/initialize_data.py`**: Script para coleta e salvamento de dados das taxas de juros.
+- **`source/analysis.py`**: Funções para visualização e análise de dados, incluindo correlações e tendências ao longo do tempo.
+- **`source/modeling.py`**: Funções para treinamento e previsão de modelos ARIMA.
+- **`source/main.py`**: Executa o fluxo de análise completo, desde a coleta até a visualização e modelagem de dados.
+- **`dashboard/app.py`**: Dashboard em Streamlit para visualização interativa de dados, incluindo gráficos e previsões.
 
 ## Fontes de Dados
 
 - **SELIC (Brasil)**: Dados recuperados da API do Banco Central do Brasil.
-- **FED (EUA)**: Dados coletados da API FRED.
-
+- **FED (EUA)**: Dados coletados da API FRED (Federal Reserve Economic Data).
 
 ## Licença
 
-Este projeto está licenciado sob a Licença MIT - veja o arquivo `LICENSE` para mais detalhes.
+Este projeto está sob a licença MIT. Consulte o arquivo `LICENSE` para mais detalhes.
